@@ -1,24 +1,28 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*", "dist/**/*", "coverage/**/*"],
+  "extends": ["eslint:recommended", "prettier"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
+      "excludedFiles": ["*.spec.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier",
+        "prettier/@typescript-eslint"
       ],
+      "env": {
+        "browser": true
+      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -39,13 +43,57 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["src/**/*.spec.ts"],
+      "plugins": ["jasmine"],
+      "env": {
+        "jasmine": true
+      },
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
       "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {}
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:jasmine/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+      ]
+    },
+    {
+      "files": ["e2e/src/**/*.ts", "e2e/protractor.conf.js"],
+      "plugins": ["protractor", "jasmine"],
+      "parserOptions": {
+        "project": ["e2e/tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "env": {
+        "protractor": true,
+        "jasmine": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:jasmine/recommended",
+        "plugin:protractor/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
+      ]
+    },
+    {
+      "files": ["*.html"],
+      "plugins": ["html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
+      "rules": {},
+      "settings": {
+        "html/report-bad-indent": "error",
+        "html/indent": "+2"
+      }
+    },
+    {
+      "files": ["*.json"],
+      "plugins": ["json"],
+      "extends": ["plugin:json/recommended-with-comments", "prettier"]
     }
   ]
 }

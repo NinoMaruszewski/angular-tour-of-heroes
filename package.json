@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "build": "ng build",
-    "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "format": "pretty-quick && eslint . --fix",
+    "format:precommit": "pretty-quick --staged && eslint . --fix",
+    "test": "ng test",
+    "e2e": "ng e2e",
+    "full-test": "run-p -l lint e2e \"test -- --watch false\""
   },
   "private": true,
   "dependencies": {
@@ -37,18 +40,36 @@
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
     "eslint": "^7.6.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-html": "^6.1.1",
     "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jasmine": "^4.1.1",
     "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-json": "^2.1.2",
     "eslint-plugin-prefer-arrow": "1.2.2",
+    "eslint-plugin-protractor": "^2.1.1",
+    "husky": "^4.3.8",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
+    "karma-firefox-launcher": "^2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-summary-reporter": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.2.1",
+    "pretty-quick": "^3.1.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s format:precommit lint",
+      "pre-push": "run-s format:precommit full-test"
+    }
   }
 }
