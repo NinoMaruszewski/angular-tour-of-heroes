@@ -9,7 +9,8 @@
     "format": "pretty-quick && eslint . --fix",
     "test": "ng test",
     "e2e": "ng e2e",
-    "full-test": "run-p -l lint e2e \"test -- --watch false\""
+    "full-test": "run-p -l lint e2e \"test -- --watch false\"",
+    "precommit": "pretty-quick --staged && lint-staged"
   },
   "private": true,
   "dependencies": {
@@ -68,8 +69,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && lint-staged",
-      "pre-push": "run-s format:precommit full-test"
+      "pre-commit": "npm run precommit",
+      "pre-push": "run-s precommit full-test"
     }
   },
   "lint-staged": {
