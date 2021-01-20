@@ -7,7 +7,6 @@
     "build": "ng build",
     "lint": "ng lint",
     "format": "pretty-quick && eslint . --fix",
-    "format:precommit": "pretty-quick --staged && eslint . --fix",
     "test": "ng test",
     "e2e": "ng e2e",
     "full-test": "run-p -l lint e2e \"test -- --watch false\""
@@ -59,6 +58,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-spec-reporter": "^0.0.32",
     "karma-summary-reporter": "^2.0.0",
+    "lint-staged": "^10.5.3",
     "npm-run-all": "^4.1.5",
     "prettier": "2.2.1",
     "pretty-quick": "^3.1.0",
@@ -68,8 +68,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s format:precommit lint",
+      "pre-commit": "pretty-quick --staged && lint-staged",
       "pre-push": "run-s format:precommit full-test"
     }
+  },
+  "lint-staged": {
+    "*.{ts,html,json}": [
+      "eslint --fix",
+      "eslint"
+    ]
   }
 }
